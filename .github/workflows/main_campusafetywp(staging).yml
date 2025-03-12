@@ -13,12 +13,9 @@ jobs:
 
       - name: Prepare deployment package
         run: |
-          # Create the correct folder structure
           mkdir -p deploy/wp-content/themes/campusafety
-          # Copy your theme files into the target folder.
-          # Adjust the copy command as needed to include only the theme files.
-          cp -r . deploy/wp-content/themes/campusafety
-          # Optionally remove files not needed in deployment (like your GitHub workflow folder)
+          # Use rsync to copy all files except the deploy folder itself
+          rsync -av --exclude='deploy' ./ deploy/wp-content/themes/campusafety/
           rm -rf deploy/wp-content/themes/campusafety/.github
           cd deploy
           zip -r release.zip .
